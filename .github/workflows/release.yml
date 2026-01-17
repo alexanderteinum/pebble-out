@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Build with Pebble SDK Docker
+      run: |
+        docker run --rm \
+          -v "$(pwd):/pebble" \
+          -w /pebble \
+          rebble/pebble-sdk:latest \
+          pebble build
+    
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build/*.pbw
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+        name: Release ${{ steps.get_version.outputs.VERSION }}

@@ -1,5 +1,8 @@
 # Out
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build](https://github.com/alexanderteinum/pebble-out/actions/workflows/build.yml/badge.svg)](https://github.com/alexanderteinum/pebble-out/actions/workflows/build.yml)
+
 Out is an opinionated, minimalist weather dashboard for Pebble. It tries to answer three specific questions:
 
 1. Do I need an umbrella?

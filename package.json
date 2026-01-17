@@ -1,5 +1,5 @@
 {
-  "name": "pebble-out",
+  "name": "out",
   "author": "Alexander Teinum",
   "version": "0.1.0",
   "keywords": [
@@ -8,7 +8,7 @@
   "private": true,
   "dependencies": {},
   "pebble": {
-    "displayName": "pebble-out",
+    "displayName": "Out",
     "uuid": "09411f25-2c5d-4ebf-819a-a32dcb70b73d",
     "sdkVersion": "3",
     "enableMultiJS": true,

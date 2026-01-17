@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Build with Pebble SDK Docker
+      run: |
+        docker run --rm \
+          -v "$(pwd):/pebble" \
+          -w /pebble \
+          rebble/pebble-sdk:latest \
+          pebble build
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: pebble-app
+        path: build/*.pbw
+        if-no-files-found: error
