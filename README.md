@@ -21,7 +21,7 @@ Out is an opinionated, minimalist weather dashboard for Pebble. It tries to answ
 
 ## Data Source
 
-Weather data is provided by The Norwegian Meteorological Institute (Met.no) via their Locationforecast 2.0 API. This is the same API that Yr uses, and it works all over the world.
+Weather data is provided by The Norwegian Meteorological Institute (Met.no) via their Locationforecast 2.0 API. This is the same high-quality data source used by Yr, and it works globally — providing accurate forecasts for any location on Earth.
 
 ## Build From Source
 
