@@ -12,7 +12,7 @@ It tries to answer three specific questions:
 
 ## Features
 
-* **Smart Precipitation Logic:** Instead of showing raw data, Type calculates the probability of rain or thunder occurring *at least once* within the next 6 hours.
+* **Smart Precipitation Logic:** Instead of showing raw data, Out calculates the probability of rain or thunder occurring *at least once* within the next 6 hours.
 * **UV Index:** Displays the peak UV index predicted for the next 6 hours.
 * **Hardware Empathy:**
     * **Square (Pebble Time/Steel):** Features a discreet battery bar at the top.
