@@ -12,8 +12,8 @@ It tries to answer three specific questions:
 
 ## Features
 
-* **Smart Precipitation Logic:** Instead of showing raw data, Out calculates the probability of rain or thunder occurring *at least once* within the next 6 hours.
-* **UV Index:** Displays the peak UV index predicted for the next 6 hours.
+* **Smart Precipitation Logic:** Instead of showing raw data, Out calculates the probability of rain or thunder occurring *at least once* within the next 3 hours.
+* **UV Index:** Displays the peak UV index predicted for the next 3 hours.
 * **Hardware Empathy:**
     * **Square (Pebble Time/Steel):** Features a discreet battery bar at the top.
     * **Round (Pebble Time Round):** Features a custom-drawn radial progress ring that hugs the bezel.

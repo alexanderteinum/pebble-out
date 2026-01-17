@@ -1,8 +1,8 @@
 function parseWeather(json) {
   var timeseries = json.properties.timeseries;
   
-  // Limit to the next 6 hours (or fewer if data is missing)
-  var limit = Math.min(timeseries.length, 6);
+  // Limit to the next 3 hours (or fewer if data is missing)
+  var limit = Math.min(timeseries.length, 3);
   
   var maxUV = 0;
   
