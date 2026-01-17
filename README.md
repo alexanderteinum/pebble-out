@@ -18,7 +18,7 @@ Out is an opinionated, minimalist weather dashboard for Pebble. It tries to answ
 
 ## Data Source
 
-Weather data is provided by **The Norwegian Meteorological Institute (Met.no)** via their Locationforecast 2.0 API.
+Weather data is provided by The Norwegian Meteorological Institute (Met.no) via their Locationforecast 2.0 API.
 
 ## Build From Source
 
