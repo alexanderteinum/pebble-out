@@ -10,7 +10,7 @@ Out is an opinionated, minimalist weather dashboard for Pebble. It tries to answ
 
 ## Features
 
-* **Smart Precipitation Logic:** Instead of showing raw data, Out calculates the probability of rain or thunder occurring *at least once* within the next 3 hours.
+* **Smart Precipitation Logic:** Instead of showing raw data, Out calculates the probability of rain or thunder occurring at least once within the next 3 hours.
 * **UV Index:** Displays the peak UV index predicted for the next 3 hours.
 * **Battery:** A line is along the edge of the screen indicating the battery level.
 * **Zero Configuration:** Uses the phone's geolocation automatically. No settings page needed.
