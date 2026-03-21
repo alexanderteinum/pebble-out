@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0 – 2026-03-21
+
+- Increased margins for Pebble Round.
+
 ## 0.4.0 – 2026-03-21
 
 - Fixed font size issue with Pebble 2 Duo.
