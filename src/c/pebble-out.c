@@ -132,7 +132,7 @@ static void window_load(Window *window) {
 #elif defined(PBL_PLATFORM_EMERY)
   margin = 24;
 #elif defined(PBL_ROUND)
-  margin = 24;
+  margin = 32;
 #endif
   int y_pos = (bounds.size.h - (row_h * 4)) / 2;
   int available_w = bounds.size.w - (margin * 2);
