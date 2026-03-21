@@ -172,7 +172,7 @@ static void window_unload(Window *window) {
 }
 
 static void init(void) {
-#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_FLINT)
+#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
   s_custom_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_INTER_20));
 #else
   s_custom_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_INTER_16));
