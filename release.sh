@@ -38,4 +38,4 @@ git push origin "v$VERSION"
 
 echo "✓ Release $VERSION created successfully!"
 echo "GitHub Actions will now build and create the release."
-echo "Check: https://github.com/alexanderteinum/pebble-type/releases"
+echo "Check: https://github.com/alexanderteinum/pebble-out/releases"
