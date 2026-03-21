@@ -127,7 +127,11 @@ static void window_load(Window *window) {
 
   int row_h = 28;
   int margin = 10;
-#ifdef PBL_ROUND
+#if defined(PBL_PLATFORM_GABBRO)
+  margin = 48;
+#elif defined(PBL_PLATFORM_EMERY)
+  margin = 24;
+#elif defined(PBL_ROUND)
   margin = 24;
 #endif
   int y_pos = (bounds.size.h - (row_h * 4)) / 2;
