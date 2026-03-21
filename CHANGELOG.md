@@ -1,8 +1,13 @@
 # Changelog
 
+## 0.4.0 – 2026-03-21
+
+- Fixed font size issue with Pebble 2 Duo.
+- Added margins to Pebble Time 2 and Pebble Round 2.
+
 ## 0.3.0 – 2026-03-21
 
-- Add missing Inter resource.
+- Added missing Inter resource.
 
 ## 0.2.0 – 2026-03-21
 
