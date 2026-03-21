@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 – 2026-03-21
+
+- Add missing Inter resource.
+
 ## 0.2.0 – 2026-03-21
 
 - Added current temperature.
