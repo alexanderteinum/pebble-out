@@ -9,7 +9,7 @@ Out is an open source, minimalist weather dashboard for Pebble, built for clarit
 
 ## Features
 
-- **Current Temperature:** Displays the real-time temperature in Celsius or Fahrenheit based on your watch settings.
+- **Current Temperature:** Displays real-time temperature in Celsius or Fahrenheit, matching your watch’s 24h/12h time format.
 - **3-Hour Window:** Shows the highest predicted risk of rain, thunder, and UV exposure for the next three hours.
 - **Inter Typography:** Uses the Inter typeface for a modern, refined look.
 - **Zero Configuration:** Automatically uses your phone’s geolocation. No settings or setup required.
