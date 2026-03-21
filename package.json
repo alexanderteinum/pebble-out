@@ -1,7 +1,7 @@
 {
   "name": "out",
   "author": "Alexander Teinum",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "keywords": [
     "pebble-app"
   ],
@@ -18,7 +18,8 @@
       "chalk",
       "diorite",
       "emery",
-      "flint"
+      "flint",
+      "gabbro"
     ],
     "watchapp": {
       "watchface": false
@@ -26,10 +27,24 @@
     "messageKeys": [
       "UV",
       "Rain",
-      "Thunder"
+      "Thunder",
+      "Temp"
     ],
     "resources": {
-      "media": []
+      "media": [
+        {
+          "type": "font",
+          "name": "FONT_INTER_20",
+          "file": "Inter-Medium.ttf",
+          "compatibility": "3.0"
+        },
+        {
+          "type": "font",
+          "name": "FONT_INTER_16",
+          "file": "Inter-Medium.ttf",
+          "compatibility": "3.0"
+        }
+      ]
     }
   }
 }

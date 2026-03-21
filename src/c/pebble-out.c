@@ -3,12 +3,11 @@
 static Window *s_main_window;
 
 static Layer *s_battery_layer;
-static TextLayer *s_rain_label;
-static TextLayer *s_rain_value;
-static TextLayer *s_thunder_label;
-static TextLayer *s_thunder_value;
-static TextLayer *s_uv_label;
-static TextLayer *s_uv_value;
+static TextLayer *s_temp_label, *s_temp_value;
+static TextLayer *s_uv_label, *s_uv_value;
+static TextLayer *s_rain_label, *s_rain_value;
+static TextLayer *s_thunder_label, *s_thunder_value;
+static GFont s_custom_font;
 
 static int s_battery_level = 0;
 
@@ -42,24 +41,56 @@ static void handle_battery(BatteryChargeState charge_state) {
 }
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
+  Tuple *temp_tuple = dict_find(iterator, MESSAGE_KEY_Temp);
+  if(temp_tuple) {
+    int temp = (int)temp_tuple->value->int32;
+    static char s_temp_buffer[16];
+    if (temp == -99) {
+      snprintf(s_temp_buffer, sizeof(s_temp_buffer), "-");
+    } else {
+      if (!clock_is_24h_style()) {
+        temp = (temp * 9 / 5) + 32;
+        snprintf(s_temp_buffer, sizeof(s_temp_buffer), "%d°F", temp);
+      } else {
+        snprintf(s_temp_buffer, sizeof(s_temp_buffer), "%d°C", temp);
+      }
+    }
+    text_layer_set_text(s_temp_value, s_temp_buffer);
+  }
+
   Tuple *uv_tuple = dict_find(iterator, MESSAGE_KEY_UV);
   if(uv_tuple) {
     static char s_uv_buffer[8];
-    snprintf(s_uv_buffer, sizeof(s_uv_buffer), "%d", (int)uv_tuple->value->int32);
+    int uv = (int)uv_tuple->value->int32;
+    if (uv == -1) {
+      snprintf(s_uv_buffer, sizeof(s_uv_buffer), "-");
+    } else {
+      snprintf(s_uv_buffer, sizeof(s_uv_buffer), "%d", uv);
+    }
     text_layer_set_text(s_uv_value, s_uv_buffer);
   }
 
   Tuple *rain_tuple = dict_find(iterator, MESSAGE_KEY_Rain);
   if(rain_tuple) {
     static char s_rain_buffer[8];
-    snprintf(s_rain_buffer, sizeof(s_rain_buffer), "%d%%", (int)rain_tuple->value->int32);
+    int rain = (int)rain_tuple->value->int32;
+    if (rain == -1) {
+      snprintf(s_rain_buffer, sizeof(s_rain_buffer), "-");
+    } else {
+      snprintf(s_rain_buffer, sizeof(s_rain_buffer), "%d%%", rain);
+    }
     text_layer_set_text(s_rain_value, s_rain_buffer);
   }
 
   Tuple *thunder_tuple = dict_find(iterator, MESSAGE_KEY_Thunder);
   if(thunder_tuple) {
     static char s_thunder_buffer[8];
-    snprintf(s_thunder_buffer, sizeof(s_thunder_buffer), "%d%%", (int)thunder_tuple->value->int32);
+    int thunder = (int)thunder_tuple->value->int32;
+    if (thunder == -1) {
+      snprintf(s_thunder_buffer, sizeof(s_thunder_buffer), "-");
+    } else {
+      snprintf(s_thunder_buffer, sizeof(s_thunder_buffer), "%d%%", thunder);
+    }
     text_layer_set_text(s_thunder_value, s_thunder_buffer);
   }
 }
@@ -73,24 +104,11 @@ static void request_weather(void) {
   app_message_outbox_send();
 }
 
-static void inbox_dropped_callback(AppMessageResult reason, void *context) { APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!"); }
-static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) { APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox failed!"); }
-static void outbox_sent_callback(DictionaryIterator *iterator, void *context) { APP_LOG(APP_LOG_LEVEL_INFO, "Outbox success!"); }
-
-static TextLayer* create_label_layer(GRect bounds, char* text) {
+static TextLayer* create_row_layer(GRect bounds, char* text, GTextAlignment alignment) {
   TextLayer *layer = text_layer_create(bounds);
   text_layer_set_text(layer, text);
-  text_layer_set_font(layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
-  text_layer_set_text_alignment(layer, GTextAlignmentCenter);
-  text_layer_set_background_color(layer, GColorClear);
-  return layer;
-}
-
-static TextLayer* create_value_layer(GRect bounds) {
-  TextLayer *layer = text_layer_create(bounds);
-  text_layer_set_text(layer, "-");
-  text_layer_set_font(layer, fonts_get_system_font(FONT_KEY_LECO_28_LIGHT_NUMBERS)); 
-  text_layer_set_text_alignment(layer, GTextAlignmentCenter);
+  text_layer_set_font(layer, s_custom_font);
+  text_layer_set_text_alignment(layer, alignment);
   text_layer_set_background_color(layer, GColorClear);
   return layer;
 }
@@ -107,60 +125,59 @@ static void window_load(Window *window) {
   layer_set_update_proc(s_battery_layer, battery_update_proc);
   layer_add_child(window_layer, s_battery_layer);
 
-  int row1_h = 20 + 30;
-  int row2_h = 20 + 45;
-  
-  int spacer = 15;      
-  int top_margin = 0;
-  int side_inset = 0; 
-
+  int row_h = 28;
+  int margin = 10;
 #ifdef PBL_ROUND
-  top_margin = 14;
-  side_inset = 20;
-  spacer = 5;
+  margin = 24;
 #endif
+  int y_pos = (bounds.size.h - (row_h * 4)) / 2;
+  int available_w = bounds.size.w - (margin * 2);
+  int label_w = (available_w * 6) / 10;
+  int value_w = available_w - label_w;
 
-  int total_content_height = row1_h + spacer + row2_h;
-  int start_y_centered = (bounds.size.h - total_content_height) / 2;
-  int y_pos = start_y_centered + top_margin;
-  
-  int col_w = bounds.size.w / 2;
+  s_temp_label = create_row_layer(GRect(margin, y_pos, label_w, row_h), "Temp", GTextAlignmentLeft);
+  layer_add_child(window_layer, text_layer_get_layer(s_temp_label));
+  s_temp_value = create_row_layer(GRect(margin + label_w, y_pos, value_w, row_h), "-", GTextAlignmentRight);
+  layer_add_child(window_layer, text_layer_get_layer(s_temp_value));
+  y_pos += row_h;
 
-  s_rain_label = create_label_layer(GRect(side_inset, y_pos, col_w - side_inset, 20), "RAIN");
-  layer_add_child(window_layer, text_layer_get_layer(s_rain_label));
-  
-  s_rain_value = create_value_layer(GRect(side_inset, y_pos + 18, col_w - side_inset, 35));
-  text_layer_set_font(s_rain_value, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD)); 
-  layer_add_child(window_layer, text_layer_get_layer(s_rain_value));
-
-  s_thunder_label = create_label_layer(GRect(col_w, y_pos, col_w - side_inset, 20), "THUNDER");
-  layer_add_child(window_layer, text_layer_get_layer(s_thunder_label));
-
-  s_thunder_value = create_value_layer(GRect(col_w, y_pos + 18, col_w - side_inset, 35));
-  text_layer_set_font(s_thunder_value, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
-  layer_add_child(window_layer, text_layer_get_layer(s_thunder_value));
-
-  y_pos = y_pos + row1_h + spacer; 
-
-  s_uv_label = create_label_layer(GRect(0, y_pos, bounds.size.w, 20), "UV INDEX");
+  s_uv_label = create_row_layer(GRect(margin, y_pos, label_w, row_h), "UV", GTextAlignmentLeft);
   layer_add_child(window_layer, text_layer_get_layer(s_uv_label));
-
-  s_uv_value = create_value_layer(GRect(0, y_pos + 20, bounds.size.w, 50));
-  text_layer_set_font(s_uv_value, fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS)); 
+  s_uv_value = create_row_layer(GRect(margin + label_w, y_pos, value_w, row_h), "-", GTextAlignmentRight);
   layer_add_child(window_layer, text_layer_get_layer(s_uv_value));
+  y_pos += row_h;
+
+  s_rain_label = create_row_layer(GRect(margin, y_pos, label_w, row_h), "Rain", GTextAlignmentLeft);
+  layer_add_child(window_layer, text_layer_get_layer(s_rain_label));
+  s_rain_value = create_row_layer(GRect(margin + label_w, y_pos, value_w, row_h), "-", GTextAlignmentRight);
+  layer_add_child(window_layer, text_layer_get_layer(s_rain_value));
+  y_pos += row_h;
+
+  s_thunder_label = create_row_layer(GRect(margin, y_pos, label_w, row_h), "Thunder", GTextAlignmentLeft);
+  layer_add_child(window_layer, text_layer_get_layer(s_thunder_label));
+  s_thunder_value = create_row_layer(GRect(margin + label_w, y_pos, value_w, row_h), "-", GTextAlignmentRight);
+  layer_add_child(window_layer, text_layer_get_layer(s_thunder_value));
 }
 
 static void window_unload(Window *window) {
   layer_destroy(s_battery_layer);
+  text_layer_destroy(s_temp_label);
+  text_layer_destroy(s_temp_value);
+  text_layer_destroy(s_uv_label);
+  text_layer_destroy(s_uv_value);
   text_layer_destroy(s_rain_label);
   text_layer_destroy(s_rain_value);
   text_layer_destroy(s_thunder_label);
   text_layer_destroy(s_thunder_value);
-  text_layer_destroy(s_uv_label);
-  text_layer_destroy(s_uv_value);
 }
 
 static void init(void) {
+#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_FLINT)
+  s_custom_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_INTER_20));
+#else
+  s_custom_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_INTER_16));
+#endif
+  
   s_main_window = window_create();
   window_set_window_handlers(s_main_window, (WindowHandlers) { .load = window_load, .unload = window_unload });
   window_stack_push(s_main_window, true);
@@ -177,6 +194,7 @@ static void init(void) {
 static void deinit(void) {
   window_destroy(s_main_window);
   battery_state_service_unsubscribe();
+  fonts_unload_custom_font(s_custom_font);
 }
 
 int main(void) {

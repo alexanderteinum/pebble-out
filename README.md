@@ -3,25 +3,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build](https://github.com/alexanderteinum/pebble-out/actions/workflows/build.yml/badge.svg)](https://github.com/alexanderteinum/pebble-out/actions/workflows/build.yml)
 
-Out is an opinionated, minimalist weather dashboard for Pebble. It tries to answer three specific questions:
+Out is an open source, minimalist weather dashboard for Pebble, built for clarity and fast decisions.
 
-1. Do I need an umbrella?
-2. Is there a storm coming?
-3. Do I need sunscreen?
-
-![Screenshot](./screenshot.png)
+![Screenshot](screenshot.png)
 
 ## Features
 
-* **Smart Precipitation Logic:** Instead of showing raw data, Out calculates the probability of rain or thunder occurring at least once within the next 3 hours.
-* **UV Index:** Displays the peak UV index predicted for the next 3 hours.
-* **Battery:** A line is along the edge of the screen indicating the battery level.
-* **Zero Configuration:** Uses the phone’s geolocation automatically. No settings page needed.
-* **High Contrast:** Optimized for the Memory LCD display using standard system fonts (LECO and Gothic).
+- **3-Hour Window:** Shows the highest predicted risk of rain, thunder, and UV exposure for the next three hours.
+- **Current Temperature:** Displays the real-time temperature in Celsius or Fahrenheit based on your watch settings.
+- **Inter Typography:** Uses the Inter typeface for a modern, refined look.
+- **Zero Configuration:** Automatically uses your phone's geolocation. No settings or setup required.
+- **Battery Awareness:** A subtle indicator along the edge of the screen shows your remaining charge.
 
 ## Data Source
 
-Weather data is provided by The Norwegian Meteorological Institute (Met.no) via their Locationforecast 2.0 API. This is the same high-quality data source used by Yr, and it works globally — providing accurate forecasts for any location on Earth.
+Weather data is provided by MET Norway (The Norwegian Meteorological Institute). It provides high-quality, global forecasts used by services like Yr.
 
 ## Build From Source
 
@@ -34,6 +30,12 @@ pebble build
 # Install to watch
 pebble install --cloudpebble
 ```
+
+## Credits
+
+- **Inter Font:** Designed by Rasmus Andersson. Licensed under the [SIL Open Font License, Version 1.1](https://scripts.sil.org/OFL).
+- **Weather Data:** Provided by [MET Norway](https://www.met.no/).
+- **Screenshot Device Frame:** From the Rebble App Store.
 
 ## License
 
