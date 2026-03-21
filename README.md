@@ -12,7 +12,7 @@ Out is an open source, minimalist weather dashboard for Pebble, built for clarit
 - **3-Hour Window:** Shows the highest predicted risk of rain, thunder, and UV exposure for the next three hours.
 - **Current Temperature:** Displays the real-time temperature in Celsius or Fahrenheit based on your watch settings.
 - **Inter Typography:** Uses the Inter typeface for a modern, refined look.
-- **Zero Configuration:** Automatically uses your phone's geolocation. No settings or setup required.
+- **Zero Configuration:** Automatically uses your phone’s geolocation. No settings or setup required.
 - **Battery Awareness:** A subtle indicator along the edge of the screen shows your remaining charge.
 
 ## Data Source
