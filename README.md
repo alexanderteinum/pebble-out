@@ -37,6 +37,10 @@ pebble install --cloudpebble
 - **Weather Data:** Provided by [MET Norway](https://www.met.no/).
 - **Screenshot Device Frame:** From the Rebble App Store.
 
+## Development
+
+Built with assistance from Gemini.
+
 ## License
 
-Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+[MIT](LICENSE) © 2026 Alexander Teinum.
