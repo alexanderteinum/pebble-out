@@ -1,8 +1,5 @@
 # Out
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build](https://github.com/alexanderteinum/pebble-out/actions/workflows/build.yml/badge.svg)](https://github.com/alexanderteinum/pebble-out/actions/workflows/build.yml)
-
 Out is an open source, minimalist weather dashboard for Pebble, giving you exactly what you need before you step out the door.
 
 ![Screenshot](screenshot.png)
